@@ -12,7 +12,7 @@ const counterReducerProducer = createReducerProducer(counterReducer);
 
 export default function CounterReducerExample() {
   const { state, run } = useAsyncState.hoist({
-    key: "reducerCounter1",
+    key: "reducerCounter",
     producer: counterReducerProducer
   });
 
@@ -30,7 +30,12 @@ export function CounterReducerExampleSub() {
   const { state, run } = useAsyncState("reducerCounter");
 
   if (!state) {
-    return "waiting...";
+    return (
+      <>
+        <hr />
+        "waiting..."
+      </>
+    );
   }
   return (
     <Counter
@@ -39,5 +44,29 @@ export function CounterReducerExampleSub() {
       increment={() => run("increment")}
       decrement={() => run("decrement")}
     />
+  );
+}
+
+export function CounterReducerExampleFork() {
+  const { key, state, run } = useAsyncState.fork("reducerCounter");
+
+  if (!state) {
+    return (
+      <>
+        <hr />
+        "waiting..."
+      </>
+    );
+  }
+  return (
+    <>
+      <ForkedCounterByKey counterKey={key} />
+      <Counter
+        value={state.data || 0}
+        label="counterReducer example, this component forks the counterReducer state"
+        increment={() => run("increment")}
+        decrement={() => run("decrement")}
+      />
+    </>
   );
 }
