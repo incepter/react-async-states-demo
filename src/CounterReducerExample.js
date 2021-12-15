@@ -12,7 +12,7 @@ const counterReducerProducer = createReducerProducer(counterReducer);
 
 export default function CounterReducerExample() {
   const { state, run } = useAsyncState.hoist({
-    key: "reducerCounter",
+    key: "reducerCounter1",
     producer: counterReducerProducer
   });
 
@@ -27,9 +27,8 @@ export default function CounterReducerExample() {
 }
 
 export function CounterReducerExampleSub() {
-  // const { state, run } = useAsyncState("reducerCounter");
+  const { state, run } = useAsyncState("reducerCounter");
 
-  console.log("waiting", state);
   if (!state) {
     return "waiting...";
   }
